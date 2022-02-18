@@ -4,6 +4,8 @@ import numpy as np
 # do this by checking sol[0] % 1 or smth) and round floats
 # to 2-3 digits. also + followed by minus should become -1
 # (this part can be done with a clean string method?)
+# also, any 1.0's should be removed (can be done with same
+# clean string method)
 class Polynomial:
     
     coeffecients = []
@@ -39,7 +41,7 @@ class Polynomial:
 def str_helper(sols, degree):
     if degree == 0:
         return str(sols[0])
-    return f'{sols[0]} x ^ {degree} + ' + str_helper(sols[1:], degree - 1)
+    return f'{sols[0]}x^{degree} + ' + str_helper(sols[1:], degree - 1)
 
 quadratic = Polynomial([[1, 2], [2, 4], [3, 8]])
 # quadratic = Polynomial(Point(1, 2), Point(2, 4), Point(3, 8))
