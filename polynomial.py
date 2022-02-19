@@ -1,3 +1,4 @@
+import string
 import numpy as np
 from Point import *
 
@@ -27,6 +28,10 @@ class Polynomial:
         coeffs = derivative_helper(self.degree, self.coeffs)
         return Polynomial(None, coeffs=coeffs)
 
+    def get_integral(self):
+        coeffs = integral_helper(self.degree, self.coeffs)
+        return Polynomial(None, coeffs=coeffs)
+
     def get_x_coeffs(self):
         #take in a list of x values, return a matrix of coefficients
         coeffs = []
@@ -44,11 +49,18 @@ def derivative_helper(degree, coeffs):
         return []
     return [coeffs[0] * degree] + derivative_helper(degree - 1, coeffs[1:])
 
+def integral_helper(degree, coeffs):
+    if degree == 0:
+        return [coeffs[0]] + ['C']
+    return [coeffs[0] / (degree + 1)] + integral_helper(degree - 1, coeffs[1:])
+
 def str_helper(sols, degree):
     a = sols[0]
-    a = round(a * 1000)/1000.0
-    if a % 1.0 in [0, 0.0]:
-        a = int(a)
+
+    if type(a) != str:
+        a = round(a * 1000)/1000.0
+        if a % 1.0 in [0, 0.0]:
+            a = int(a)
 
     if degree == 0:
         if a == 1:
@@ -66,10 +78,10 @@ def str_helper(sols, degree):
 def clean_str(s):
     return s.replace("+ -", '- ')
 
-poly = Polynomial([Point(1, 2), Point(2, 4), Point(3, 8), Point(0, 5)])
-print(poly)
-print(poly.get_derivative())
-
+poly = Polynomial([Point(1, 2), Point(2, 4), Point(3, 8), Point(0, -5)])
+print('calculated polynomial:', poly)
+print('derivative:', poly.get_derivative())
+print('integral', poly.get_integral())
 
 
 
