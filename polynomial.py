@@ -1,17 +1,16 @@
 import numpy as np
-import re
+from Point import *
 
 # maybe clean up x^1 into just x and don't display 0 terms
 class Polynomial:
     def __init__(self, points, coeffs=None):
         assert(type(points == list))
-        # points list should look like [[x1, y1], [x2, y2], ... ]
-        # or [Point1, Point2, Point3, ...]
+        # points list should look like
+        #[Point1, Point2, Point3, ...]
         if points:
             self.points = points
             self.degree = len(points) - 1
-            constants = np.array([p[1] for p in points])
-            #constants = [point.x for point in list]
+            constants = [point.y for point in points]
             x_vals = self.get_x_coeffs()
             self.coeffs = np.linalg.solve(x_vals, constants)
         elif coeffs:
@@ -24,8 +23,8 @@ class Polynomial:
     def __str__(self):
         return clean_str(str_helper(self.coeffs, self.degree))
 
-    def get_integral(self):
-        coeffs = integral_helper(self.degree, self.coeffs)
+    def get_derivative(self):
+        coeffs = derivative_helper(self.degree, self.coeffs)
         return Polynomial(None, coeffs=coeffs)
 
     def get_x_coeffs(self):
@@ -35,16 +34,15 @@ class Polynomial:
         for x in self.points:
             eq = []
             for num in range(self.degree + 1):
-                eq.insert(0, x[0] ** num)
-                # eq.insert(0, x.x ** num)
+                eq.insert(0, x.x ** num)
             coeffs.append(eq)
         return np.array(coeffs)
 
     
-def integral_helper(degree, coeffs):
+def derivative_helper(degree, coeffs):
     if degree == 0:
         return []
-    return [coeffs[0] * degree] + integral_helper(degree - 1, coeffs[1:])
+    return [coeffs[0] * degree] + derivative_helper(degree - 1, coeffs[1:])
 
 def str_helper(sols, degree):
     a = sols[0]
@@ -68,10 +66,9 @@ def str_helper(sols, degree):
 def clean_str(s):
     return s.replace("+ -", '- ')
 
-poly = Polynomial([[1, 2], [2, 4], [3, 8], [0, 5]])
-# quadratic = Polynomial(Point(1, 2), Point(2, 4), Point(3, 8))
+poly = Polynomial([Point(1, 2), Point(2, 4), Point(3, 8), Point(0, 5)])
 print(poly)
-print(poly.get_integral())
+print(poly.get_derivative())
 
 
 
