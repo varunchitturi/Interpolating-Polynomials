@@ -1,5 +1,6 @@
+from .Point import Point
 import numpy as np
-from Point import Point
+
 
 # TODO: maybe make it so 0 terms aren't displayed
 class Polynomial:
