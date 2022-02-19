@@ -1,4 +1,4 @@
-from Polynomials import Polynomial, Point
+from Polynomial import Polynomial, Point
 
 
 def main():

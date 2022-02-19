@@ -30,6 +30,9 @@ class Polynomial:
     def __str__(self):
         return Polynomial._clean_str(Polynomial._str_helper(self.coeffs, self.degree))
 
+    def __eq__(self, obj):
+        return self.coeffs == obj.coeffs
+
     def get_derivative(self):
         """
 
