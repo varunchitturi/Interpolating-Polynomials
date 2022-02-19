@@ -2,7 +2,7 @@ import string
 import numpy as np
 from Point import *
 
-# maybe clean up x^1 into just x and don't display 0 terms
+# maybe make it so 0 terms aren't displayed
 class Polynomial:
     def __init__(self, points, coeffs=None):
         assert(type(points == list))
@@ -76,7 +76,7 @@ def str_helper(sols, degree):
         return f'{a}x^{degree} + ' + str_helper(sols[1:], degree - 1)
 
 def clean_str(s):
-    return s.replace("+ -", '- ')
+    return s.replace("+ -", '- ').replace('x^1 ', 'x ')
 
 poly = Polynomial([Point(1, 2), Point(2, 4), Point(3, 8), Point(0, -5)])
 print('calculated polynomial:', poly)
