@@ -86,7 +86,22 @@ class Polynomial:
             y_prime = self.get_derivative().evaluate(init_guess)
             return self.find_root(init_guess - y / y_prime)
         except RecursionError as e:
-            return "Unable to find a root with this initial guess"
+            return None
+
+    def find_roots_range(self, min, max, width=1):
+        """
+
+        :return: Returns a list of all roots of a polynomial over a given range
+        """
+        solutions = []
+        while min <= max:
+            if self.find_root(min):
+                sol = round(1000*self.find_root(min))/1000
+                if sol not in solutions:
+                    solutions.append(sol)
+            min += width
+        return solutions
+
 
     @staticmethod
     def _clean_str(string):
