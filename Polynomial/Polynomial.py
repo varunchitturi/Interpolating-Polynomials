@@ -41,12 +41,12 @@ class Polynomial:
         coeffs = Polynomial._derivative_helper(self.degree, self.coeffs)
         return Polynomial(coeffs=coeffs)
 
-    def get_integral(self):
+    def get_integral(self, C='C'):
         """
 
         :return: Returns the integral of a polynomial
         """
-        coeffs = Polynomial._integral_helper(self.degree, self.coeffs)
+        coeffs = Polynomial._integral_helper(self.degree, self.coeffs, C)
         return Polynomial(coeffs=coeffs)
 
     def get_x_coeffs(self):
@@ -114,10 +114,10 @@ class Polynomial:
         return [coeffs[0] * degree] + Polynomial._derivative_helper(degree - 1, coeffs[1:])
 
     @staticmethod
-    def _integral_helper(degree, coeffs):
+    def _integral_helper(degree, coeffs, C):
         if degree == 0:
-            return [coeffs[0], 'C']
-        return [coeffs[0] / (degree + 1)] + Polynomial._integral_helper(degree - 1, coeffs[1:])
+            return [coeffs[0], C]
+        return [coeffs[0] / (degree + 1)] + Polynomial._integral_helper(degree - 1, coeffs[1:], C)
 
     @staticmethod
     def _str_helper(sols, degree):
