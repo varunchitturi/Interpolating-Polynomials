@@ -63,6 +63,13 @@ class Polynomial:
             coeffs.append(eq)
         return np.array(coeffs)
 
+    def evaluate(self, x):
+        x_vector = []
+        for degree in range(self.degree + 1):
+            x_vector.insert(0, x ** degree)
+        x_vector = np.array(x_vector)
+        return np.matmul(self.coeffs, x_vector)
+
     @staticmethod
     def _clean_str(string):
         return string.replace("+ -", '- ').replace('x^1 ', 'x ')
@@ -76,8 +83,8 @@ class Polynomial:
     @staticmethod
     def _integral_helper(degree, coeffs):
         if degree == 0:
-            return [coeffs[0]] + ['C']
-        return [coeffs[0] / (degree + 1)] + Polynomial._derivative_helper(degree - 1, coeffs[1:])
+            return [coeffs[0], 'C']
+        return [coeffs[0] / (degree + 1)] + Polynomial._integral_helper(degree - 1, coeffs[1:])
 
     @staticmethod
     def _str_helper(sols, degree):
@@ -89,11 +96,7 @@ class Polynomial:
                 a = int(a)
 
         if degree == 0:
-            if a == 1:
-                return ''
-            elif a == -1:
-                return '-'
-            return str(a) if a != 1 else ''
+            return str(a)
         else:
             if a == 1:
                 return f'x^{degree} + ' + Polynomial._str_helper(sols[1:], degree - 1)
