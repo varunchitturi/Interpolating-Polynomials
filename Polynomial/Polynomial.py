@@ -64,11 +64,29 @@ class Polynomial:
         return np.array(coeffs)
 
     def evaluate(self, x):
+        """
+
+        :return: Returns the value of a polynomial at a given point
+        """
         x_vector = []
         for degree in range(self.degree + 1):
             x_vector.insert(0, x ** degree)
         x_vector = np.array(x_vector)
         return np.matmul(self.coeffs, x_vector)
+
+    def find_root(self, init_guess):
+        """
+
+        :return: Returns a root of a polynomial given an initial guess
+        """
+        y = self.evaluate(init_guess)
+        if round(y*1000)/1000 == 0:
+            return init_guess
+        try:
+            y_prime = self.get_derivative().evaluate(init_guess)
+            return self.find_root(init_guess - y / y_prime)
+        except RecursionError as e:
+            return "Unable to find a root with this initial guess"
 
     @staticmethod
     def _clean_str(string):
