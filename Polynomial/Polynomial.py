@@ -31,7 +31,22 @@ class Polynomial:
         return Polynomial._clean_str(Polynomial._str_helper(self.coeffs, self.degree))
 
     def __eq__(self, obj):
-        return self.coeffs == obj.coeffs
+        ob1Coeffs = self.coeffs
+        ob2Coeffs = obj.coeffs
+        if ob1Coeffs[-1] == ob2Coeffs[-1] and ob1Coeffs[-1] == 'C' and ob2Coeffs[-1] == 'C':
+            ob1Coeffs.pop()
+            ob2Coeffs.pop()
+        elif obj.coeffs[-1] != self.coeffs[-1]:
+            return False
+
+        return [round(float(x), 12) for x in list(ob1Coeffs)] == [round(float(x), 12) for x in list(ob2Coeffs)] and self.degree == obj.degree
+
+    def plot(self):
+        """
+
+        Plots a graph of the polynomial
+        """
+        # TODO: DO PLOT
 
     def get_derivative(self):
         """
@@ -80,7 +95,7 @@ class Polynomial:
         :return: Returns a root of a polynomial given an initial guess
         """
         y = self.evaluate(init_guess)
-        if round(y*1000)/1000 == 0:
+        if round(y * 1000) / 1000 == 0:
             return init_guess
         try:
             y_prime = self.get_derivative().evaluate(init_guess)
@@ -96,12 +111,11 @@ class Polynomial:
         solutions = []
         while min <= max:
             if self.find_root(min):
-                sol = round(1000*self.find_root(min))/1000
+                sol = round(1000 * self.find_root(min)) / 1000
                 if sol not in solutions:
                     solutions.append(sol)
             min += width
         return solutions
-
 
     @staticmethod
     def _clean_str(string):
@@ -124,7 +138,7 @@ class Polynomial:
         a = sols[0]
 
         if type(a) != str:
-            a = round(a * 1000)/1000.0
+            a = round(a * 1000) / 1000.0
             if a % 1.0 in [0, 0.0]:
                 a = int(a)
 
@@ -136,6 +150,3 @@ class Polynomial:
             elif a == -1:
                 return f'-x^{degree} + ' + Polynomial._str_helper(sols[1:], degree - 1)
             return f'{a}x^{degree} + ' + Polynomial._str_helper(sols[1:], degree - 1)
-
-
-
