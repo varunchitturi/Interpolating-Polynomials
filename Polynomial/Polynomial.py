@@ -1,3 +1,4 @@
+from zipfile import LargeZipFile
 from .Point import Point
 import numpy as np
 
@@ -48,6 +49,23 @@ class Polynomial:
         """
         # TODO: DO PLOT
 
+    def polynomial_sum(self, poly_2):
+        """
+        
+        Returns a sum of two polynomials
+        """
+        bigger_polynomial = max(self, poly_2, key=lambda x:len(x.coeffs))
+        smaller_polynomial = min(self, poly_2, key=lambda x:len(x.coeffs))
+        print('smaller', smaller_polynomial)
+        print('bigger', bigger_polynomial)
+        result = []
+        for i in range(1, len(smaller_polynomial.coeffs) + 1):
+            result.insert(0, bigger_polynomial.coeffs[-i] + smaller_polynomial.coeffs[-i])
+        for i in range(len(smaller_polynomial.coeffs) + 1, len(bigger_polynomial.coeffs) + 1):
+            result.insert(0, bigger_polynomial.coeffs[-i])
+
+        return Polynomial(coeffs=result)
+    
     def get_derivative(self):
         """
 
