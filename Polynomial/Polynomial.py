@@ -100,11 +100,19 @@ class Polynomial:
 
         :return: Returns the value of a polynomial at a given point
         """
-        x_vector = []
-        for degree in range(self.degree + 1):
-            x_vector.insert(0, x ** degree)
-        x_vector = np.array(x_vector)
-        return np.matmul(self.coeffs, x_vector)
+        if np.isscalar(x):
+            x_vector = []
+            for degree in range(self.degree + 1):
+                x_vector.insert(0, x ** degree)
+            x_vector = np.array(x_vector)
+            return np.matmul(self.coeffs, x_vector)
+        else:
+            y = np.zeros_like(x, dtype=float)
+            for (i, degree) in enumerate(range(self.degree, -1, -1)):
+                if self.coeffs[i] != "C":
+                    print(x, degree, self.coeffs[i])
+                    y += (x ** degree) * self.coeffs[i]
+            return y
 
     def find_root(self, init_guess):
         """

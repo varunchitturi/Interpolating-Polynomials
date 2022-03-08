@@ -1,5 +1,6 @@
 from Polynomial import Polynomial, Point
 import unittest
+import numpy as np
 
 
 class TestInitializer(unittest.TestCase):
@@ -33,7 +34,17 @@ class TestMethods(unittest.TestCase):
         pass
 
     def test_evaluate(self):
-        pass
+        self.poly1 = Polynomial(Point(1, 29), Point(-1, -35), Point(2, 31), Point(-3, -19))
+        x = [-10, 0, 1, 10, 17, 20]
+        vX = np.array(x)
+        y = [3439, -1, 29, -3841, -19619, -32081]
+        vY = np.array(y)
+
+        for (i, xVal) in enumerate(x):
+            self.assertEqual(y[i], int(self.poly1.evaluate(xVal)))
+
+        for (i, yVal) in enumerate(self.poly1.evaluate(vX)):
+            self.assertAlmostEqual(yVal, vY[i])
 
 
 if __name__ == '__main__':
