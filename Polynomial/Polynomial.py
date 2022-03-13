@@ -2,8 +2,6 @@ from zipfile import LargeZipFile
 from .Point import Point
 import numpy as np
 
-
-# TODO: maybe make it so 0 terms aren't displayed
 class Polynomial:
     """
     A type to hold polynomial equations
@@ -41,13 +39,6 @@ class Polynomial:
             return False
 
         return [round(float(x), 12) for x in list(ob1Coeffs)] == [round(float(x), 12) for x in list(ob2Coeffs)] and self.degree == obj.degree
-
-    def plot(self):
-        """
-
-        Plots a graph of the polynomial
-        """
-        # TODO: DO PLOT
 
     def polynomial_sum(self, poly_2):
         """
@@ -110,7 +101,6 @@ class Polynomial:
             y = np.zeros_like(x, dtype=float)
             for (i, degree) in enumerate(range(self.degree, -1, -1)):
                 if self.coeffs[i] != "C":
-                    print(x, degree, self.coeffs[i])
                     y += (x ** degree) * self.coeffs[i]
             return y
 
